@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% for mesg in get_flashed_messages() %}
+      <h3 class="positiveNotif">{{mesg}}</h3>
+      {% endfor %}
+
+<!-- 
+check if logged in
+check if item has been purchased
+check if review exists
+delete or edit review -->
+
+
+{% if orderExist %}
+  {% if reviewExist%}
+  <h4 class="child" style = "font-size:xx-large;">Update Seller Review</h4>
+
+  <div style="display: flex;" class="wrapper">
+    <div>
+      <h2 style = "font-size:x-large;">For {{name}}</h2>
+    </div>
+  </div>
+
+  <form action="" method="post" class='child' novalidate>
+    {{ uForm.hidden_tag() }}
+    <p>
+      {{ uForm.ratingInUpdate.label }}<br/>
+      {{ uForm.ratingInUpdate(size=1) }}<br/>
+    </p>
+    <p>
+      {{ uForm.reviewInUpdate.label }}<br/>
+      {{ uForm.reviewInUpdate(size=32) }}<br/>
+    </p>
+    {{ uForm.submitUpdate(class_="btn btn-black") }} {{ dForm.submitDelete(class_="btn btn-black") }}
+  </form>
+
+  {% else %}
+    <h4 class="child" style = "font-size:xx-large;">Create Seller Review</h4>
+
+    <div style="display: flex;" class="wrapper">
+      <div>
+        <h2 style = "font-size:x-large;">For {{name}}</h2>
+      </div>
+    </div>
+
+    <form action="" method="post" class='child' novalidate>
+    {{ cForm.hidden_tag() }}
+    <p>
+      {{ cForm.ratingInCreate.label }}<br/>
+      {{ cForm.ratingInCreate(size=1) }}<br/>
+    </p>
+    <p>
+      {{ cForm.reviewInCreate.label }}<br/>
+      {{ cForm.reviewInCreate(size=32) }}<br/>
+    </p>
+  
+    {{ cForm.submitCreate(class_="btn btn-black") }}
+  </form>
+  {% endif%}
+{% else %}
+  <div>You are not qualified to review this seller</div>
+  <div style ="color:red">Error: Product from Seller Not Purchased</div>
+{% endif %}  
+
+<br>
+<a href="{{ url_for('users.seller_view') }}?sid={{sid}}"><button class="btn btn-black">Back to Seller Page</button></a>
+
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if session['seller'] %}
+<table class='table table-hover table-bordered container'>
+    <div style="display: flex;">
+      <h4>Your (Seller) conversations:</h4>
+  </div>  
+    <thead class="thead-dark">
+        <tr>
+          <th scope="col">User</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for convo in conversations%}
+          <tr>
+            <th scope="row" style="color:black"><a href="{{ url_for('messaging.mdisplay') }}?cid={{convo.cid}}&&id={{convo.sid}}">{{convo.othername}}</a></th>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+{% else %}
+    <div class="wrapper" style ="display: flex">    
+      <div class = "wrapper" style="width:21%; display: inline-block; float:right; margin-right: 10px;">
+  
+        <b style = "font-size:large;">Start a conversation</b>
+        <h4 style = "font-size: medium;">Navigate to a sellers page to initiate a conversation</h4>
+      
+      </div>
+      <div style="width:78%; display: inline-block; float:left; ">
+        <table class='table table-hover table-bordered container'>
+          <div style="display: flex;">
+            <h4>Your (Buyer) conversations:</h4>
+        </div>  
+          <thead class="thead-dark">
+              <tr>
+                <th scope="col">Seller</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for convo in conversations%}
+                <tr>
+                  <th scope="row" style="color:black"><a href="{{ url_for('messaging.mdisplay')}}?cid={{convo.cid}}&&id={{convo.uid}}">{{convo.othername}}</a></th>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>    
+    </div>   
+    {% endif %}
+
+{% endblock %}

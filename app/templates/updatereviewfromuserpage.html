@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% for mesg in get_flashed_messages() %}
+      <h3 class="positiveNotif">{{mesg}}</h3>
+      {% endfor %}
+
+{% if current_user.id == uid %}
+  <h4 class="child" style = "font-size:xx-large;">Update Product Review</h4>
+
+  <div style="display: flex;" class="wrapper">
+    <div>
+      <img src= {{link}} width = "50" height = "50">
+    </div>
+    <div>
+      <h2 style = "font-size:x-large;"> {{name}}</h2>
+    </div>
+  </div>
+
+  <form action="" method="post" class='child' novalidate>
+    {{ uForm.hidden_tag() }}
+    <p>
+      {{ uForm.ratingInUpdate.label }}<br/>
+      {{ uForm.ratingInUpdate(size=1) }}<br/>
+    </p>
+    <p>
+      {{ uForm.reviewInUpdate.label }}<br/>
+      {{ uForm.reviewInUpdate(size=32) }}<br/>
+    </p>
+    <p>
+      {{ uForm.photoInUpdate.label }}<br/>
+      {{ uForm.photoInUpdate(size=32) }}<br/>
+    </p>
+    {{ uForm.submitUpdate(class_="btn btn-black") }} {{ dForm.submitDelete(class_="btn btn-black") }}
+  </form>
+
+ 
+{% else %}
+    {% if current_user.is_authenticated %}
+  <div>You are not qualified to edit this review</div>
+  <div style ="color:red">Error: Incorrect user</div>
+    {% else %}
+    <div>You are not qualified to edit this review</div>
+  <div style ="color:red">Error: No logged in</div>
+  <a href="{{ url_for('users.login') }}" type="button" class="btn btn-light"><button class = "btn btn-black">Log in</button></a>
+    {% endif %} 
+{% endif %}  
+
+<a href="{{ url_for('users.user_manage') }}?uid={{uid}}"><button class="btn btn-black">Back to User Page</button></a>
+
+{% endblock %}

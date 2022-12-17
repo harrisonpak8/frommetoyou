@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div style="margin: 1%">
+{% for mesg in get_flashed_messages() %}
+      <h3 class="positiveNotif">{{mesg}}</h3>
+      {% endfor %}
+
+<a style="font-size: 32px"><b>Your Seller Information</b></a>
+<a style="font-size: 12px; padding: 5px" href="{{ url_for('users.user_manage') }}">Click here to switch to User mode</a>
+
+<div style="float: right;">
+  <a href="{{ url_for('users.balance') }}" type="button" class="btn btn-dark">Balance</a>
+  <a href="{{ url_for('hw4_inventory.sidinventory') }}" type="button" class="btn btn-dark">Inventory</a>
+</div><br><br>
+
+<b style = "font-size:24px;">Your Seller Reviews</b>
+<div class="wrapper" style ="display: flex">    
+    <div class = "wrapper" style="width:23%; display: inline-block; float: right; margin-right: 10px;">
+      {% if averageReview == 1 %}
+      <div style="font-size:m ">&#127773; &#127770; &#127770; &#127770; &#127770; Average {{averageReview}} Sun out of 5</div>
+      {% endif %}
+      {% if averageReview == 2 %}
+      <div style="font-size:m ">&#127773; &#127773; &#127770; &#127770; &#127770;  Average {{averageReview}} Suns out of 5</div>
+      {% endif %}
+      {% if averageReview == 3 %}
+      <div style="font-size:m ">&#127773; &#127773; &#127773; &#127770; &#127770;  Average {{averageReview}} Suns out of 5</div>
+      {% endif %}
+      {% if averageReview == 4 %}
+      <div style="font-size:m ">&#127773; &#127773; &#127773; &#127773; &#127770; Average {{averageReview}} Suns out of 5</div>
+      {% endif %}
+      {% if averageReview == 5 %}
+      <div style="font-size:m ">&#127773; &#127773; &#127773; &#127773; &#127773; Average {{averageReview}} Suns out of 5</div>
+      {% endif %}
+      {% if averageReview < 1 or averageReview >5 %}
+      <div style="font-size:m ">&#127770; &#127770; &#127770; &#127770; &#127770; Unavailable</div>
+      {% endif %}
+      
+  
+      <div>{{numberOfReview}} Total Ratings</div>
+      <br>
+      <div>5 Sun <progress max = {{numberOfReview}} value={{numberOfReviewFive}} style="accent-color: rgb(247, 171, 9);"></progress> {{numberOfReviewFive}} Rating(s)</div>
+      <div>4 Sun <progress max = {{numberOfReview}} value={{numberOfReviewFour}} style="accent-color: rgb(247, 171, 9);"></progress> {{numberOfReviewFour}} Rating(s)</div>
+      <div>3 Sun <progress max = {{numberOfReview}} value={{numberOfReviewThree}} style="accent-color: rgb(247, 171, 9);"></progress> {{numberOfReviewThree}} Rating(s)</div>
+      <div>2 Sun <progress max = {{numberOfReview}} value={{numberOfReviewTwo}} style="accent-color: rgb(247, 171, 9);"></progress> {{numberOfReviewTwo}} Rating(s)</div>
+      <div>1 Sun <progress max = {{numberOfReview}} value={{numberOfReviewOne}} style="accent-color: rgb(247, 171, 9);"></progress> {{numberOfReviewOne}} Rating(s)</div>
+    </div>
+    <div style="width: 76%">
+      <table class='table table-hover table-bordered container'>
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">User</th>
+              <th scope="col">Rating</th>
+              <th scope="col">Review</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for review in recentReviews%}
+              <tr>
+                <th scope="row" style="color:black"><a href="{{ url_for('users.public_view') }}?uid={{review.uid}}">{{review.name}}</a></th>
+                <td>{{review.rating}}</td>
+                <td>{{review.review}}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>    
+  </div>
+
+<br>
+  <b style = "font-size:24px;">Your Orders:</b>
+  <h5>Your User/Seller ID is: <b>{{current_user.id}}</b></h5>
+  <br>
+  <a href="{{ url_for('users.seller_manage') }}"type="button" class="btn btn-dark">Refresh Table</a><br><br>
+  <table class='table table-hover table-bordered container'>
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Order ID</th>
+        <th scope="col">Product ID</th>
+        <th scope="col">Quantity of Product</th>
+        <th scope="col">Customer's First Name</th>
+        <th scope="col">Customer's Last Name</th>
+        <th scope="col">Customer's Address</th>
+        <th scope="col">Time Purchased</th>
+        <th scope="col">Fulfilled</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in order_fill %}
+        <tr>
+          <th scope="row" style = "color:black">{{item.oid}}</th>
+          <td>{{item.pid}}</td>
+          <td>{{item.quantity}}</td>
+          <td>{{item.firstname}}</td>
+          <td>{{item.lastname}}</td>
+          <td>{{item.address}}</td>
+          <td>{{item.time_purchased}}</td>
+          <td>{{item.fulfilled}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br><br>
+
+<div>  
+  <form action="" method="post" class='child' style="border:black; border-style:solid" novalidate>
+    <h4>Change Fulfillment Status</h4>
+    {{ form.hidden_tag() }}
+    <p>
+      {{ form.oid.label }}<br/>
+      {{ form.oid(size=32) }}<br/>
+    </p>
+    <p>
+    {{ form.submitTrue(class_="btn btn-black") }}
+  </form> 
+
+  <form action="" method="post" class='child' style="border:black; border-style:solid" novalidate>
+    <h4>Change Fulfillment Status</h4>
+    {{ formF.hidden_tag() }}
+    <p>
+      {{ formF.oid2.label }}<br/>
+      {{ formF.oid2(size=32) }}<br/>
+    </p>
+    <p>
+    {{ formF.submitFalse(class_="btn btn-black") }}
+  </form> 
+<div>
+
+{% endblock %}

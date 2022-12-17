@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% for mesg in get_flashed_messages() %}
+      <h3 class="positiveNotif">{{mesg}}</h3>
+      {% endfor %}
+<br><br>
+<div>  
+  <form action="" method="post" class='child' style="border:black; border-style:solid" novalidate>
+    <h4>Add Product</h4>
+    {{ form3.hidden_tag() }}
+    <p>
+      {{ form3.productname3.label }}<br/>
+      {{ form3.productname3(size=32) }}<br/>
+    </p>
+    <p>
+      {{ form3.descr.label}}<br/>
+      {{ form3.descr(size = 32) }}<br>
+    </p>
+    <p>
+      {{ form3.cat.label}}
+      {{ form3.cat(size = 32)}}
+    </p>
+    <p>
+      {{ form3.price.label}}<br>
+      {{ form3.price(size = 32) }}<br>
+    </p>
+    <p>
+      {{ form3.quantity3.label }}<br/>
+      {{ form3.quantity3(size=32) }}<br/>
+    </p>
+    <p>
+    {{ form3.submit3(class_="btn btn-black") }}
+  </form> 
+
+  <form action="" method="post" class='child' style="border:black; border-style:solid" novalidate>
+    <h4>Edit Product In Inventory</h4>
+    {{ form4.hidden_tag() }}
+    <p>
+      {{ form4.pid_input4.label }}<br/>
+      {{ form4.pid_input4(size=32) }}<br/>
+    </p>
+    <p>
+      {{ form4.pname4.label}}<br>
+      {{form4.pname4(size=32)}}<br>
+    </p>
+    <p>
+      {{form4.pdescr4.label}}<br>
+      {{form4.pdescr4(size=32)}}<br>
+    </p>
+    <p>
+      {{form4.pprice4.label}}<br>
+      {{form4.pprice4(size=32)}}
+    </p>
+    <p>
+      {{ form4.quantity4.label }}<br/>
+      {{ form4.quantity4(size=32) }}<br/>
+    </p>
+    <p>
+    {{ form4.submit4(class_="btn btn-black") }}
+  </form> 
+
+  <form action="" method="post" class='child' style="border:black; border-style:solid" novalidate>
+    <h4>Delete Product</h4>
+    {{ form2.hidden_tag() }}
+    <p>
+      {{ form2.pid_input2.label }}<br/>
+      {{ form2.pid_input2(size=32) }}<br/>
+    </p>
+    <p>
+    {{ form2.submit2(class_="btn btn-black") }}
+  </form>
+</div>
+
+  <br><br>
+  <h2>{{current_user.firstname}}'s Inventory:</h2>
+  <h5>Your User/Seller ID is {{current_user.id}}</h5>
+  <br>
+  <a href="{{ url_for('hw4_inventory.sidinventory') }}" type="button" class="btn btn-dark">Refresh Table</a><br><br>
+  <table class='table table-hover table-bordered container'>
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Product ID</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in sid_inventory%}
+        <tr>
+          <th scope="row" style = "color:black">{{item.productID}}</th>
+          <td>{{item.productname}}</td>
+          <td>{{item.quantity}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br><br>
+
+  <!--This code is now irrelevant. Used to be the input for sid to pull up inv table with that sid-->
+  <!--<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <p>
+      {{ form.sid_input.label }}<br/>
+      {{ form.sid_input(size=32) }}<br/>
+    </p>
+    {{ form.submit(class_="btn btn-black") }}-->
+
+
+{% endblock %}

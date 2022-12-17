@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% for mesg in get_flashed_messages() %}
+      <h3 class="positiveNotif">{{mesg}}</h3>
+      {% endfor %}
+
+<head>
+    <meta http-equiv="refresh" content="10">
+</head>      
+
+<div style="width:95%; display: inline-block; margin: auto; ">
+    <table class='table table-hover table-bordered container'>
+      <div style="display: flex;">
+        <h4>Your conversation:</h4>
+    </div>  
+      <thead class="thead-dark">
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Message</th>
+            <th scope="col">Time Sent</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for message in messages%}
+            <tr>
+                <td>{{message.name}}</td>
+                <td>{{message.message}}</td>
+                <td>{{message.time_sent}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>    
+
+    <form action="" method="post" class='child' novalidate>
+        {{form.hidden_tag() }}
+        <p>
+          {{ form.message.label }}<br/>
+          {{ form.message(size=80) }}<br/>
+        </p>  {{ form.submit(class_="btn btn-black") }}
+        
+      </form>
+    
+{% endblock %}

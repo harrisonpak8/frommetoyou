@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% for mesg in get_flashed_messages() %}
+      <h3 class="positiveNotif">{{mesg}}</h3>
+      {% endfor %}
+
+<div style="width: 100%;"> 
+  <form id = "form" action="" method="post" novalidate style="width: 100%; margin-left: 9%; margin-top: 1%;">
+    {{ form3.hidden_tag() }}
+    <p>
+      {{ form3.kw_input.label }}
+      {{ form3.kw_input(size=100) }}
+      {{ form3.submit3(class_="btn btn-black") }}
+    </p>
+  </form>
+  <h2 style="text-align: center;">Products {{cat}}</h2>
+</div>
+<br>
+<div>
+  <div class="container" style="display: flex;">
+    <div style="width: 5%; margin-left: -10%;">
+      <form id = "form" action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+          {{ form.k_input.label }}<br/>
+          {{ form.k_input(size=8) }}<br/>
+        </p>
+          {{ form.submit(class_="btn btn-black") }}
+      </form>
+      <br>
+      <form id = "form2" action="" method="post" novalidate>
+        {{ form2.hidden_tag() }}
+        <p>
+          {{ form2.cat_input.label }}<br/>
+          {{ form2.cat_input(size=8) }}<br/>
+        </p>
+          {{ form2.submit2(class_="btn btn-black") }}
+      </form>
+      <br>
+      <form id = "form4" action="" method="post" novalidate>
+        {{ form4.hidden_tag() }}
+        <p>
+          {{ form4.r_input.label }}<br/>
+          {{ form4.r_input(size=8) }}<br/>
+        </p>
+          {{ form4.submit4(class_="btn btn-black") }}
+      </form>
+      <br>
+    </div>
+    <div style="flex-grow: 1;">
+      <table class='table table-hover table-bordered container' style="width:90%; margin-left: 5%;" align="right">
+        <thead bgcolor = "#232f3e">
+          <tr>
+            <th scope="col">Product ID</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Description</th>            
+            <th scope="col">Product Image</th>
+            <th scope="col">Product Price</th>
+            <th scope="col">Category</th>
+            <th scope="col">Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in range(0, length)%}
+            <tr>
+              <td scope="row">{{products[i].id}}</td>
+              <td>
+                <a style="text-decoration: none; color: black" href="{{ url_for('product.product') }}?id={{products[i].id}}">{{products[i].name}}</a>
+              </td>
+              <td>{{products[i].descr}}</td>
+              <td><img src= {{products[i].link}} width = "100" height = "100"></td>
+              <td>{{products[i].price}}</td>
+              <td>{{products[i].category}}</td>
+              <td>{{ratings[i]}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <br>
+    </div>
+  </div>
+  </div>
+{% endblock %}

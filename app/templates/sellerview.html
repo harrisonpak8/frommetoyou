@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div style="margin: 1%">
+{% for mesg in get_flashed_messages() %}
+      <h3 class="positiveNotif">{{mesg}}</h3>
+      {% endfor %}
+
+<a style="font-size: 32px">User: <b>{{fullname}}</b></a><br>
+Account #: <b>{{sid}}</b><br><br>
+
+<b style = "font-size:24px;">Reviews Received From Users</b>
+<div class="wrapper" style ="display: flex">    
+    <div class = "wrapper" style="width:23%; display: inline-block; float:right; margin-right: 10px;">
+      {% if averageReview == 1 %}
+      <div style="font-size:m ">&#127773; &#127770; &#127770; &#127770; &#127770; Average {{averageReview}} Sun out of 5</div>
+      {% endif %}
+      {% if averageReview == 2 %}
+      <div style="font-size:m ">&#127773; &#127773; &#127770; &#127770; &#127770;  Average {{averageReview}} Suns out of 5</div>
+      {% endif %}
+      {% if averageReview == 3 %}
+      <div style="font-size:m ">&#127773; &#127773; &#127773; &#127770; &#127770;  Average {{averageReview}} Suns out of 5</div>
+      {% endif %}
+      {% if averageReview == 4 %}
+      <div style="font-size:m ">&#127773; &#127773; &#127773; &#127773; &#127770; Average {{averageReview}} Suns out of 5</div>
+      {% endif %}
+      {% if averageReview == 5 %}
+      <div style="font-size:m ">&#127773; &#127773; &#127773; &#127773; &#127773; Average {{averageReview}} Suns out of 5</div>
+      {% endif %}
+      {% if averageReview < 1 or averageReview >5 %}
+      <div style="font-size:m ">&#127770; &#127770; &#127770; &#127770; &#127770; Unavailable</div>
+      {% endif %}
+      
+  
+      <div>{{numberOfReview}} Total Ratings</div>
+      <br>
+      <div>5 Sun <progress max = {{numberOfReview}} value={{numberOfReviewFive}} style="accent-color: rgb(247, 171, 9);"></progress> {{numberOfReviewFive}} Rating(s)</div>
+      <div>4 Sun <progress max = {{numberOfReview}} value={{numberOfReviewFour}} style="accent-color: rgb(247, 171, 9);"></progress> {{numberOfReviewFour}} Rating(s)</div>
+      <div>3 Sun <progress max = {{numberOfReview}} value={{numberOfReviewThree}} style="accent-color: rgb(247, 171, 9);"></progress> {{numberOfReviewThree}} Rating(s)</div>
+      <div>2 Sun <progress max = {{numberOfReview}} value={{numberOfReviewTwo}} style="accent-color: rgb(247, 171, 9);"></progress> {{numberOfReviewTwo}} Rating(s)</div>
+      <div>1 Sun <progress max = {{numberOfReview}} value={{numberOfReviewOne}} style="accent-color: rgb(247, 171, 9);"></progress> {{numberOfReviewOne}} Rating(s)</div>
+      
+    <hr>
+    <b style = "font-size:large;">Review this seller</b>
+    <h4 style = "font-size: medium;">Share your thoughts with other customers</h4>
+    {% if current_user.is_authenticated %}
+      <a href="{{ url_for('sellerreview.sellerreview') }}?sid={{sid}}&&name={{fullname}}" type="button" ><button class = "btn btn-black">Create Review</button></a>
+    {% else %}
+      <a href="{{ url_for('users.login') }}" type="button" class="btn btn-light"><button class = "btn btn-black">Create Review</button></a>
+    {% endif %}
+
+    <hr>
+
+    <b style = "font-size:large;">Message this seller</b>
+    <h4 style = "font-size: medium;">Ask the Seller questions at any time</h4>
+    {% if current_user.is_authenticated %}
+      <form action="" method="post" class='child' novalidate>
+        {{ sForm.hidden_tag() }}
+        {{ sForm.submitstart(class_="btn btn-black") }}
+      </form>
+    {% else %}
+      <a href="{{ url_for('users.login') }}" type="button" class="btn btn-light"><button class = "btn btn-black">Create Review</button></a>
+    {% endif %}
+
+    {{cid}}
+
+
+    </div>
+    <div style="width: 76%">
+      <table class='table table-hover table-bordered container'>
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">User</th>
+              <th scope="col">Rating</th>
+              <th scope="col">Review</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for review in recentReviews%}
+              <tr>
+                <th scope="row" style="color:black"><a href="{{ url_for('users.user_view') }}?uid={{review.uid}}">{{review.name}}</a></th>
+                <td>{{review.rating}}</td>
+                <td>{{review.review}}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>    
+  </div>
+
+
+{% endblock %}

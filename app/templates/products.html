@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<br><br>
+
+<h2 style="text-align: center;">All products for sale:</h2>
+<table class= 'table table-hover table-bordered container' style="width:15%" align="left">
+    <thead class="thead-dark">
+        <tr>
+          <th scope="col">Browsing Categories</th>
+        </tr>
+        <tbody>
+            <tr>
+                <th scope="row">Display Most Expensive
+                    <br>
+                    <a href="{{ url_for('hw4_product.topk') }}" type="button" class="btn btn-dark">Go</a>
+                </th>
+            </tr>
+            <tr>
+                <th scope="row">Browse By Category
+                    <br>
+                    <a href="{{ url_for('hw4_product.getbycat') }}" type="button" class="btn btn-dark">Go</a>
+                </th>
+            </tr>
+            <tr>
+                <th scope="row">Search by Key Word</th>
+            </tr>
+        </tbody>
+    </thead>
+</table>
+<table class='table table-hover table-bordered container' style="width:75%" align="right">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Product ID</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Category</th>
+      <th scope="col">Price</th>
+      <th scope="col">Availability</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product in products%}
+      <tr>
+        <th scope="row">{{product.id}}</th>
+        <td>{{product.name}}</td>
+        <td>{{product.category}}</td>
+        <td>{{product.price}}</td>
+        <td>{{product.available}}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

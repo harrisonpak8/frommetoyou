@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if orders %}
+<br>
+<h2>Here are your past orders, {{current_user.firstname}}.</h2>
+<br>
+<table class='table table-hover table-bordered container'>
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Order ID</th>
+        <th scope="col">Product ID</th>
+        <th scope="col">Seller ID</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Time Purchased</th>
+        <th scope="col">Fulfilled Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders%}
+        <tr>
+          <th scope="row" style="color:black">{{order.oid}}</th>
+          <td>{{order.pid}}</td>
+          <td>{{order.sid}}</td>
+          <td>{{order.quantity}}</td>
+          <td>{{order.time_purchased}}</td>
+          <td>{{order.fulfilled}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% else %}
+<br>
+<h2>You have no past orders, {{current_user.firstname}}</h2>
+{% endif %}
+
+{% endblock %}

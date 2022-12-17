@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if not current_user.is_authenticated %}
+  <br><br>
+  <div class='parent'>
+  <img src="https://m.media-amazon.com/images/G/31/cart/empty/kettle-desaturated._CB424694257_.svg" alt="Not Logged In" width="300" height="166"/>
+  <div class='child'>
+  <h3>Please sign into your Mini Amazon account to view your cart.</h3>
+  <br>
+  <div>
+  <a href="{{ url_for('users.login') }}" type="button" class="btn btn-black">Sign into your account.</a>
+  <a class="btn btn-secondary" href="{{ url_for('users.register') }}" role="button">Register for an account.</a>
+  </div>
+  </div>
+  
+{% else %}
+    {% if cart %}
+    <br><br>
+    {% if num_in_cart == 1 %}
+    <h2>{{current_user.firstname}}'s Cart: {{num_in_cart}} Item</h2>
+    {% else %}
+    <h2>{{current_user.firstname}}'s Cart: {{num_in_cart}} Items</h2>
+    {% endif %}
+    <h4>Subtotal: ${{subtotal}}</h4>
+    <table class='table table-hover table-bordered container'>
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Product ID</th>
+          <th scope="col">Product Name</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Unit Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in cart%}
+          <tr>
+            <th scope="row" style="color:black">{{item.pid}}</th>
+            <td>{{item.productname}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.unit_price}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <br>
+    {% if (balance < subtotal) %}
+    <h3><b style="color:rgb(247, 171, 9);">Sorry. You do not have enough money in your account to purchase these items.</b></h3>
+    {% else %}
+    <h3><b style="color: green">You can purchase the items in your cart!</b></h3>
+    {% endif %}
+    <br>
+    <div>
+      <form action="" method="post" class='child' style="border:black; border-style:solid" novalidate>
+        <h4>Delete Product From Cart</h4>
+        {{ deleteform.hidden_tag() }}
+        <p>
+          {{ deleteform.pid_input.label }}<br/>
+          {{ deleteform.pid_input(size=32) }}<br/>
+        </p>
+        <p>
+        {{ deleteform.submit(class_="btn btn-black") }}
+      </form>
+      <!--<form action="" method="post" class='child' style="border:black; border-style:solid" novalidate>
+        <h4>Change Quantity of Item in Cart</h4>
+        {{ changeform.hidden_tag() }}
+        <p>
+          {{ changeform.pid_input.label }}<br/>
+          {{ changeform.pid_input(size=32) }}<br/>
+        </p>
+        <p>
+          {{ changeform.quant_input.label }}<br/>
+          {{ changeform.quant_input(size=32) }}<br/>
+        </p>
+        <p>
+        {{ changeform.submit(class_="btn btn-black") }}
+      </form>-->
+    {% else %}
+    <br>
+    <h2>Your cart is currently empty.</h2>
+    <br>
+    <h2>Return to the main page to start adding products to your cart!</h2>
+    {% endif %}
+{% endif %}
+
+
+{% endblock %}
